@@ -1,0 +1,9 @@
+huggingface_hub
+transformers 
+datasets 
+peft 
+bitsandbytes 
+flash-attn
+torch
+trl
+tf_keras
