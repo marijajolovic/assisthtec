@@ -1,0 +1,7 @@
+# === Inference config (uniform decoding) ===
+max_new_tokens: 128
+temperature: 0.2
+top_p: 0.95
+repetition_penalty: 1.0
+
+use_fim: false  # set true for StarCoder infill inference
