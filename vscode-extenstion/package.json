@@ -1,32 +1,50 @@
 {
-  "name": "marija",
-  "displayName": "assisthtec",
-  "description": "LEAVE BLANK",
-  "version": "0.0.1",
+  "name": "assisthtec",
+  "displayName": "AssistHTEC",
+  "description": "Your local copilot!",
+  "publisher": "marijajolovic",
+  "icon": "icon.png",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.96.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:assisthtec.triggerInline"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "marija.helloWorld",
-        "title": "Say Hello from assisthtec"
-      },
-      {
-        "command": "marija.predictNextCode",
-        "title": "Predict Next Code"
-      },
-      {
-        "command": "marija.provideInlineSuggestion",
-        "title": "Provide Inline Suggestion"
+        "command": "assisthtec.triggerInline",
+        "title": "AssistHtec: Trigger inline suggestion"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+        "command": "assisthtec.triggerInline",
+        "key": "ctrl+alt+\\",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Assisthtec",
+      "type": "object",
+      "properties": {
+        "assisthtec.endpoint": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000/predict",
+          "description": "URL Assisthtec API-ja (text/plain)."
+        }
+      }
+    }
   },
+  "enabledApiProposals": [
+    "inlineCompletions"
+  ],
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
