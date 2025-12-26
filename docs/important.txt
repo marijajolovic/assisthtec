@@ -1,0 +1,22 @@
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "bigcode/starcoderbase-1b"   --peft_adapter_id "marijajolovic/lora-bigcode-starcoderbase-1b-20251101-1053"   --out_preds evaluation_500/outputs/star1b/finetuned/preds.json   --out_refs  evaluation_500/outputs/star1b/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "bigcode/starcoderbase-3b"   --peft_adapter_id "marijajolovic/lora-bigcode-starcoderbase-3b-20251101-0103"   --out_preds evaluation_500/outputs/star3b/finetuned/preds.json   --out_refs  evaluation_500/outputs/star3b/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "bigcode/starcoderbase-7b"   --peft_adapter_id "marijajolovic/lora-bigcode-starcoderbase-7b-20251101-0033"   --out_preds evaluation_500/outputs/star7b/finetuned/preds.json   --out_refs  evaluation_500/outputs/star7b/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+
+
+CODELLAMA
+
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "codellama/CodeLlama-7b-hf"   --peft_adapter_id "marijajolovic/lora-codellama-CodeLlama-7b-hf-20251101-1731"   --out_preds evaluation_500/outputs/codellama7b/finetuned/preds.json   --out_refs  evaluation_500/outputs/codellama7b/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+DEEPSEEK
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "deepseek-ai/deepseek-coder-6.7b-base"   --peft_adapter_id "marijajolovic/lora-deepseek-ai-deepseek-coder-6.7b-base-20251101-1340"   --out_preds evaluation_500/outputs/deepseek/finetuned/preds.json   --out_refs  evaluation_500/outputs/deepseek/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+MISTRAL
+
+python evaluation_500/infer.py   --csv evaluation_500/hf_test_subset_with_lang.csv   --base_model_id "mistralai/Mistral-7B-v0.1"   --peft_adapter_id "marijajolovic/lora-mistralai-Mistral-7B-v0.1-20251101-1348"   --out_preds evaluation_500/outputs/mistral7b/finetuned/preds.json   --out_refs  evaluation_500/outputs/mistral7b/finetuned/refs.json   --prompt_tokens 256   --max_new_tokens 128   --temperature 0.2   --top_p 0.95   --repetition_penalty 1.0
+
+
+ python evaluation_500/infer.py --csv ./amd/one_sample.csv --language_col language --content_col content --base_model_id bigcode/starcoderbase-7b --prompt_tokens 256 --max_new_tokens 128 --temperature 0.2 --top_p 0.95 --dtype fp32 --out_preds amd/preds_7b_base.json --out_refs ./amd/refs_7b_base.json

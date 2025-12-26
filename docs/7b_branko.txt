@@ -1,0 +1,83 @@
+from datasets import load_dataset
+import torch
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from trl import SFTTrainer
+import os
+import requests
+import time
+import json
+
+dataset_name = "malibanekg/intents_data"
+dataset = load_dataset(dataset_name, split="train")
+
+base_model_name = "meta-llama/Llama-2-7b-hf"
+
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16,
+)
+
+device_map = {"": 0}
+
+base_model = AutoModelForCausalLM.from_pretrained(
+    base_model_name,
+    use_safetensors=True,
+    quantization_config=bnb_config,
+    device_map="auto",
+    trust_remote_code=True,
+    use_auth_token=True
+)
+base_model.config.use_cache = False
+
+lora_target_modules = [
+    "q_proj",
+    "up_proj",
+    "o_proj",
+    "k_proj",
+    "down_proj",
+    "gate_proj",
+    "v_proj",
+]
+
+peft_config = LoraConfig(
+    r=16,
+    lora_alpha=64,
+    lora_dropout=0.05,
+    target_modules=lora_target_modules,
+    bias="none",
+    task_type="CAUSAL_LM",
+)
+
+model = prepare_model_for_kbit_training(base_model)
+model = get_peft_model(model, peft_config)
+
+tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
+
+output_dir = "./llama-7b-hotels-v2"
+
+training_args = TrainingArguments(
+    output_dir=output_dir,
+    report_to="tensorboard",
+    per_device_train_batch_size=4,
+    gradient_accumulation_steps=4,
+    # optim="adamw_torch",
+    optim="paged_adamw_32bit",
+    learning_rate=1e-4,
+    logging_steps=100,
+    num_train_epochs=3,
+    # max_steps=2,
+    fp16=True,
+    max_grad_norm=0.3,
+    warmup_ratio=0.1,
+    lr_scheduler_type="cosine",
+    push_to_hub=True,
+)
+
+max_seq_length = 512
+
+
+
